@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Matias & Ailin</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    :root {
+      --beige: #d8c0a4;
+      --light: #fdfcf8;
+      --soft: #f6f0e7;
+      --blue: #2f5fa7;
+      --text: #8f8363;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--light);
+      color: var(--text);
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(rgba(216,192,164,0.15) 1px, transparent 1px);
+      background-size: 30px 30px;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .floating-hearts span {
+      position: fixed;
+      bottom: -50px;
+      color: rgba(255,255,255,0.4);
+      font-size: 20px;
+      animation: floatUp linear infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    section {
+      padding: 120px 20px;
+      position: relative;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .hero {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top, rgba(255,255,255,0.25), transparent 40%);
+    }
+
+    .hero img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      animation: slowZoom 18s infinite alternate ease-in-out;
+      transform: scale(1.05);
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.55));
+      backdrop-filter: blur(1px);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      color: white;
+      animation: fadeUp 1.2s ease;
+      padding: 20px;
+    }
+
+    .subtitle {
+      text-transform: uppercase;
+      letter-spacing: 10px;
+      margin-bottom: 30px;
+      font-size: 13px;
+    }
+
+    h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 120px;
+      line-height: 0.9;
+      font-weight: 300;
+      text-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    }
+
+    .ampersand {
+      color: var(--beige);
+      font-style: italic;
+    }
+
+    .date-line {
+      margin-top: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      flex-wrap: wrap;
+    }
+
+    .date-line div {
+      width: 70px;
+      height: 1px;
+      background: rgba(255,255,255,0.6);
+    }
+
+    .btn {
+      margin-top: 50px;
+      border: none;
+      padding: 18px 42px;
+      border-radius: 999px;
+      background: white;
+      color: var(--text);
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      transition: 0.4s;
+      font-weight: 600;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      font-family: inherit;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.7), transparent);
+      transform: translateX(-100%);
+    }
+
+    .btn:hover::before {
+      animation: shine 1s;
+    }
+
+    .btn:hover {
+      transform: scale(1.08);
+      background: #f7f3ed;
+    }
+
+    .beige {
+      background: var(--soft);
+    }
+
+    .title {
+      font-family: 'Cinzel', serif;
+      text-align: center;
+      font-size: 65px;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+
+    .text {
+      text-align: center;
+      font-size: 24px;
+      margin-bottom: 50px;
+      line-height: 1.6;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(12px);
+      border-radius: 40px;
+      padding: 60px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+      border: 1px solid rgba(234,223,207,0.8);
+      transition: 0.6s;
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    .card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 30px 80px rgba(47,95,167,0.15);
+    }
+
+    .save-date {
+      display: inline-block;
+      padding: 45px 80px;
+      border-radius: 40px;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid #eadfcf;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+      transition: 0.5s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .save-date::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(47,95,167,0.08), transparent 60%);
+    }
+
+    .save-date:hover {
+      transform: scale(1.05) rotate(-1deg);
+    }
+
+    .save-date small {
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 5px;
+      position: relative;
+    }
+
+    .save-date h3 {
+      font-size: 70px;
+      margin-top: 10px;
+      font-style: italic;
+      position: relative;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+      gap: 30px;
+    }
+
+    .mini-card {
+      background: #fcfaf7;
+      padding: 40px;
+      border-radius: 30px;
+      border: 1px solid #efe5d9;
+      text-align: center;
+      transition: .4s;
+    }
+
+    .mini-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(47,95,167,0.25);
+    }
+
+    .mini-card small {
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 5px;
+    }
+
+    .mini-card h3 {
+      font-size: 42px;
+      margin-top: 15px;
+      font-style: italic;
+    }
+
+    .rsvp {
+      background: linear-gradient(135deg,var(--beige),var(--blue));
+      color: white;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .rsvp::before {
+      content: "";
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 50%;
+      top: -250px;
+      right: -150px;
+    }
+
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+
+    .music-btn {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: none;
+      background: white;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      cursor: pointer;
+      z-index: 999;
+      font-size: 22px;
+      transition: .3s;
+    }
+
+    .music-btn:hover {
+      transform: scale(1.1);
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slowZoom {
+      from {
+        transform: scale(1.05);
+      }
+      to {
+        transform: scale(1.12);
+      }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes shine {
+      to {
+        transform: translateX(200%);
+      }
+    }
+
+    @keyframes floatUp {
+      from {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      to {
+        transform: translateY(-120vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width:768px) {
+      h1 {
+        font-size: 70px;
+      }
+
+      .title {
+        font-size: 42px;
+      }
+
+      .save-date h3 {
+        font-size: 42px;
+      }
+
+      .card {
+        padding: 35px;
+      }
+
+      .text {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body class="bg-[#fdfcf8] text-[#8f8363]">
+
+  <div class="floating-hearts" id="floatingHearts"></div>
+
+  <section class="hero">
+    <img src="7.jpeg" alt="Matias y Ailin">
+    <div class="overlay"></div>
+
+    <div class="hero-content">
+      <p class="subtitle">Nos Casamos</p>
+
+      <h1 style="font-size:140px;">
+        Matias
+        <br>
+        <span class="ampersand">&</span>
+        <br>
+        Ailin
+      </h1>
+
+      <div class="date-line">
+        <div></div>
+        <span>10 de Octubre de 2026</span>
+        <div></div>
+      </div>
+
+      <button class="btn" onclick="scrollToForm()">
+        Confirmar asistencia
+      </button>
+    </div>
+  </section>
+
+  <section class="beige">
+    <div class="container" style="text-align:center;">
+      <h2 class="title">Fecha del Evento</h2>
+      <p class="text">Una noche mágica llena de amor, música y recuerdos inolvidables</p>
+
+      <div class="save-date">
+        <small>Save the date</small>
+        <h3>10 · 10 · 2026</h3>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="card" style="text-align:center; max-width:900px; margin:auto;">
+        <h2 class="title">Querida familia</h2>
+
+        <p class="text">
+          Con muchísima alegría queremos invitarlos a celebrar junto a nosotros
+          uno de los momentos más importantes de nuestras vidas. Esperamos compartir con ustedes una noche llena de alegría, emociones y muchísimo amor.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="beige">
+    <div class="container">
+      <div class="card">
+        <h2 class="title">Ceremonia & Celebración</h2>
+
+        <div class="grid">
+          <div class="mini-card">
+            <small>Hora</small>
+            <h3>18:00 HS</h3>
+          </div>
+
+          <div class="mini-card">
+            <small>Lugar</small>
+            <h3>Quinta Los Aromos</h3>
+            <p>Buenos Aires, Argentina</p>
+          </div>
+        </div>
+
+        <div style="text-align:center;">
+          <button class="btn">Ver ubicación</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2 class="title">Código de Vestimenta</h2>
+
+      <div class="grid">
+        <div class="card" style="text-align:center;">
+          <h3 style="font-size:42px; margin-bottom:20px;">Cocktail Elegante</h3>
+          <p>Mujeres</p>
+        </div>
+
+        <div class="card" style="text-align:center;">
+          <h3 style="font-size:42px; margin-bottom:20px;">Elegante Sport</h3>
+          <p>Hombres</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="rsvp" id="formulario">
+    <div class="container">
+      <h2 class="title" style="color:white;">Confirma tu Asistencia</h2>
+
+      <p class="text">
+        Tu presencia hará este día todavía más especial para nosotros.
+      </p>
+
+      <button class="btn pulse">
+        Completa el formulario
+      </button>
+    </div>
+  </section>
+
+  <script>
+    function scrollToForm() {
+      document.getElementById('formulario').scrollIntoView({
+        behavior: 'smooth'
+      });
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.card').forEach(card => {
+      observer.observe(card);
+    });
+
+    const hearts = document.getElementById('floatingHearts');
+
+    function createHeart() {
+      const heart = document.createElement('span');
+      heart.innerHTML = '❤';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = (Math.random() * 6 + 6) + 's';
+      heart.style.fontSize = (Math.random() * 10 + 14) + 'px';
+
+      hearts.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 12000);
+    }
+
+    setInterval(createHeart, 900);
+
+    document.querySelectorAll('.btn').forEach(btn => {
+      btn.addEventListener('mousemove', e => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        btn.style.background = `radial-gradient(circle at ${x}px ${y}px, #ffffff, #f7f3ed)`;
+      });
+
+      btn.addEventListener('mouseleave', () => {
+        btn.style.background = '#ffffff';
+      });
+    });
+  </script>
+
+</body>
+</html>
